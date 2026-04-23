@@ -59,22 +59,6 @@ Each project is simple, clean, and designed to strengthen core web development s
 
 ---
 
-## ▶️ How to Run
-
-1. Download or clone the repository:
-
-```
-git clone <https://github.com/Niharika-Sharmaa/HTML.git>
-```
-
-2. Open any `.html` file in your browser:
-
-```
-Double click file OR Right click → Open with browser
-```
-
----
-
 ## 🎯 Purpose
 
 This repository is created to:

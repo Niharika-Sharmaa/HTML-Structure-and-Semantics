@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prepacti Archive</title>
+    <!-- Google Fonts for Gothic & Antique Vibe -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CORE GRAPHICAL VARIABLES --- */
+        :root {
+            --dark-gothic: #0f0a08;
+            --parchment-cream: #ecdcb9;
+            --gold-leaf: #bfa15f;
+            --deep-blood: #4a1212;
+            --text-light: #e0d5c1;
+            --text-dark: #2b1f17;
+            --transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* --- BASIC ARCHIVAL SETUP --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            background-color: var(--dark-gothic);
+            background-image: 
+                linear-gradient(rgba(15, 10, 8, 0.94), rgba(10, 6, 5, 0.98)),
+                url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Antique scrollbar customization */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark-gothic); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-leaf); border-radius: 4px; }
+
+        /* --- ANIMATED VINTAGE INTRO SCREEN --- */
+        .intro-gate {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 1s ease;
+            padding: 20px;
+        }
+
+        .intro-gate.unlock {
+            box-shadow: 0 0 30px rgba(0,0,0,0.9), inset 0 0 20px rgba(191, 161, 95, 0.1);
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .intro-frame {
+            border: 2px solid var(--gold-leaf);
+            padding: 60px 40px;
+            max-width: 650px;
+            background: rgba(15, 10, 8, 0.9);
+            box-shadow: 0 0 50px rgba(0,0,0,0.9), inset 0 0 30px rgba(191, 161, 95, 0.2);
+            animation: frameGlow 4s infinite alternate;
+        }
+
+        @keyframes frameGlow {
+            0% { box-shadow: 0 0 30px rgba(0,0,0,0.9), inset 0 0 20px rgba(191, 161, 95, 0.1); }
+            100% { box-shadow: 0 0 50px rgba(191, 161, 95, 0.15), inset 0 0 40px rgba(191, 161, 95, 0.25); }
+        }
+
+        .intro-frame h2 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2.5rem;
+            color: var(--gold-leaf);
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+
+        .intro-frame p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 35px;
+            line-height: 1.8;
+        }
+
+        .seal-button {
+            background: var(--deep-blood);
+            color: var(--parchment-cream);
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            padding: 15px 35px;
+            border: 1px solid var(--gold-leaf);
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .seal-button:hover {
+            background: var(--gold-leaf);
+            color: var(--dark-gothic);
+            box-shadow: 0 0 25px rgba(191, 161, 95, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* --- HEADER NAVIGATION --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 6%;
+            border-bottom: 1px solid rgba(191, 161, 95, 0.15);
+            background: rgba(15, 10, 8, 0.5);
+        }
+
+        .logo {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: var(--gold-leaf);
+            text-shadow: 0 0 10px rgba(191, 161, 95, 0.3);
+            cursor: pointer;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--gold-leaf);
+            color: var(--gold-leaf);
+            font-family: 'Cinzel', serif;
+            padding: 10px 22px;
+            cursor: pointer;
+            letter-spacing: 1.5px;
+            transition: var(--transition);
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.9);
+        }
+
+        .back-btn.show { opacity: 1; pointer-events: auto; transform: scale(1); }
+        .back-btn:hover { background: var(--gold-leaf); color: var(--dark-gothic); }
+
+        /* --- VIEWS WORKSPACE --- */
+        .view {
+            display: none;
+            padding: 50px 6%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .view.active {
+            display: block;
+            animation: gothicReveal 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes gothicReveal {
+            from { opacity: 0; transform: translateY(30px); filter: grayscale(50%) blur(5px); }
+            to { opacity: 1; transform: translateY(0); filter: grayscale(0%) blur(0); }
+        }
+
+        /* --- HOMEPAGE SPECIFIC --- */
+        .home-foyer {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 50px;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .foyer-text h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            color: var(--text-light);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .foyer-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #bfa15f;
+            margin-bottom: 20px;
+        }
+
+        .foyer-art-frame {
+            border: 12px solid #1a120e;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            position: relative;
+            overflow: hidden;
+            height: 380px;
+            background-image: radial-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .foyer-art-frame::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: 1px solid var(--gold-leaf);
+        }
+
+        .section-title {
+            font-family: 'IM Fell English SC', 'Cinzel', serif;
+            font-size: 2.2rem;
+            text-align: center;
+            color: var(--gold-leaf);
+            letter-spacing: 3px;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '❦';
+            display: block;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            opacity: 0.6;
+        }
+
+        /* --- GENRES DISPLAY GRID --- */
+        .genre-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .genre-box {
+            background-color: rgba(20, 14, 11, 0.9);
+            border: 1px solid rgba(191, 161, 95, 0.2);
+            padding: 45px 30px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .genre-box::before {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(191, 161, 95, 0.05);
+            transition: var(--transition);
+        }
+
+        .genre-box:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--gold-leaf);
+            box-shadow: 0 15px 35px rgba(191, 161, 95, 0.15);
+        }
+
+        .genre-box:hover::before {
+            border-color: rgba(191, 161, 95, 0.3);
+        }
+
+        .genre-box .icon { font-size: 2.5rem; color: var(--gold-leaf); margin-bottom: 15px; display: block; }
+        .genre-box h3 { font-family: 'Cinzel', serif; font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 12px; }
+        .genre-box p { font-size: 0.9rem; color: #a49684; line-height: 1.6; }
+
+        /* --- REFINED SECOND VIEW DISPLAY --- */
+        .shelf-art-banner {
+            height: 250px;
+            margin-bottom: 50px;
+            border: 1px solid var(--gold-leaf);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            box-shadow: inset 0 0 100px #000, 0 15px 30px rgba(0,0,0,0.7);
+        }
+
+        .shelf-art-banner::before {
+            content: ''; position: absolute; top:0; left:0; width:100%; height:100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), #0f0a08);
+        }
+
+        .shelf-art-banner h2 {
+            position: absolute; bottom: 20px; left: 40px;
+            font-family: 'Cinzel', serif; font-size: 2.8rem; color: var(--gold-leaf);
+            text-shadow: 2px 2px 10px #000;
+        }
+
+        .books-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 45px 30px;
+        }
+
+        /* --- THE LITERARY GOTHIC HARDCOVER INSTANCE --- */
+        .book-capsule {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .book-binding-3d {
+            width: 180px;
+            height: 270px;
+            position: relative;
+            perspective: 1000px;
+            margin-bottom: 15px;
+        }
+
+        .real-cover-img {
+            width: 100%;
+            height: 100%;
+            background-size: cover !important;
+            background-position: center !important;
+            border-radius: 3px 6px 6px 3px;
+            box-shadow: 5px 12px 25px rgba(0,0,0,0.85);
+            border-left: 5px solid rgba(0,0,0,0.5);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Internal realistic framing for text labels overlay on covers */
+        .real-cover-img::before {
+            content: '';
+            position: absolute;
+            top: 10px; bottom: 10px; left: 10px; right: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            pointer-events: none;
+        }
+
+        .cover-text-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 15px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.4);
+            text-shadow: 2px 2px 4px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+        }
+
+        .cover-text-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+
+        .cover-text-author {
+            font-size: 0.75rem;
+            font-style: italic;
+            color: var(--gold-leaf);
+        }
+
+        .book-capsule:hover .real-cover-img {
+            transform: rotateY(-14deg) scale(1.04);
+            box-shadow: 15px 20px 35px rgba(0,0,0,0.9), 0 0 15px rgba(191, 161, 95, 0.2);
+        }
+
+        .book-meta-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 5px;
+            font-weight: 600;
+            display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+        }
+
+        .book-meta-author {
+            font-size: 0.8rem; font-style: italic; color: #9c8e7c; margin: 3px 0;
+        }
+
+        .book-meta-price {
+            font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--gold-leaf); font-weight: 700; margin-top: 2px;
+        }
+
+        .book-meta-rating {
+            color: #d4af37; font-size: 0.85rem; letter-spacing: 1px; margin-top: 4px;
+        }
+
+        /* --- THE ANTIQUE PARCHMENT CABINET SCREEN (MODAL) --- */
+        .cabinet-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0; pointer-events: none; transition: var(--transition);
+            padding: 20px;
+        }
+
+        .cabinet-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .cabinet-parchment-sheet {
+            background-color: var(--parchment-cream);
+            background-image: url('https://www.transparenttextures.com/patterns/parchment.png');
+            color: var(--text-dark);
+            border: 3px double #4a3625;
+            max-width: 850px;
+            width: 100%;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.9);
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            position: relative;
+            transform: translateY(40px) scale(0.95);
+            transition: var(--transition);
+        }
+
+        .cabinet-overlay.active .cabinet-parchment-sheet { transform: translateY(0) scale(1); }
+
+        .close-parchment {
+            position: absolute; top: 15px; right: 22px;
+            font-size: 2.2rem; color: #574130; cursor: pointer; font-family: 'Cinzel', serif;
+        }
+
+        .close-parchment:hover { color: var(--deep-blood); }
+
+        .parchment-left {
+            background: rgba(43, 31, 23, 0.06);
+            padding: 50px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px dashed #7a634e;
+        }
+
+        .parchment-right { padding: 50px 40px; display: flex; flex-direction: column; justify-content: center; }
+
+        .parchment-big-cover {
+            width: 190px; height: 285px;
+            box-shadow: 5px 15px 30px rgba(43,31,23,0.5);
+            background-size: cover !important; background-position: center !important;
+            border-left: 5px solid #231912;
+            position: relative;
+            border-radius: 3px;
+        }
+
+        .parchment-title { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--deep-blood); margin-bottom: 5px; font-weight: 700; }
+        .parchment-author { font-style: italic; font-size: 1.1rem; color: #574235; margin-bottom: 25px; }
+
+        .parchment-data-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+            border-top: 1px solid #917c6b; border-bottom: 1px solid #917c6b;
+            padding: 15px 0; margin-bottom: 25px; font-size: 0.9rem;
+        }
+
+        .data-label span { display: block; font-size: 0.75rem; text-transform: uppercase; color: #705b4b; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .data-label strong { color: var(--text-dark); font-weight: 700; }
+
+        .parchment-synopsis { font-size: 0.95rem; line-height: 1.7; color: #3b2e25; text-align: justify; }
+
+        @media (max-width: 768px) {
+            .cabinet-parchment-sheet { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; }
+            .parchment-left { border-right: none; border-bottom: 1px dashed #7a634e; padding: 30px; }
+            .parchment-right { padding: 30px; }
+            .home-foyer { grid-template-columns: 1fr; }
+            .foyer-art-frame { height: 240px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- --- INTRO VELVET GATE SCREEN --- -->
+    <div class="intro-gate" id="introGate">
+        <div class="intro-frame">
+            <h2>Prepacti Archive</h2>
+            <p>"Verba volant, scripta manent. Step across the veil into a centuries-old dark collection of foundational literary masterpieces, bound in weathered leather and preserved in ink."</p>
+            <button class="seal-button" onclick="breakArchiveSeal()">Break The Wax Seal</button>
+        </div>
+    </div>
+
+    <!-- --- PRIMARY APPLICATION CONTAINER --- -->
+    <header>
+        <div class="logo" onclick="routeToHome()">Prepacti Archive</div>
+        <button class="back-btn" id="navigationBackBtn" onclick="routeToHome()">← Exit to Foyer</button>
+    </header>
+
+    <!-- --- VIEW 1: HOME PATHWAYS DISPLAY --- -->
+    <main id="homeView" class="view active">
+        <div class="home-foyer">
+            <div class="foyer-text">
+                <h1>The Grand Repository</h1>
+                <p>You have traveled deep into the forgotten halls of the Prepacti Archive. Encapsulated here are forty-one of the absolute most powerful literary achievements globally across human history.</p>
+                <p>Select an esoteric category domain below to unlock the mahogany shelves holding the original individual records.</p>
+            </div>
+            <div class="foyer-art-frame"></div>
+        </div>
+
+        <h2 class="section-title">The Nine Classified Sectors</h2>
+        <div class="genre-grid" id="genreContainer"></div>
+    </main>
+
+    <!-- --- VIEW 2: VAULT DISPLAY --- -->
+    <section id="shelfView" class="view">
+        <div class="shelf-art-banner" id="shelfBanner">
+            <h2 id="shelfTitle">Sector</h2>
+        </div>
+        <div class="books-matrix" id="booksShelfContainer"></div>
+    </section>
+
+    <!-- --- GLOBAL COMPONENT DETAIL EXPLORER SHEET --- -->
+    <div class="cabinet-overlay" id="cabinetOverlay" onclick="dismissCabinetViaOverlay(event)">
+        <div class="cabinet-parchment-sheet">
+            <div class="close-parchment" onclick="toggleCabinetDisplayView(false)">&times;</div>
+            <div class="parchment-left">
+                <div class="parchment-big-cover" id="sheetCover"></div>
+            </div>
+            <div class="parchment-right">
+                <h2 class="parchment-title" id="sheetTitle">Title</h2>
+                <div class="parchment-author" id="sheetAuthor">Author</div>
+                
+                <div class="parchment-data-grid">
+                    <div class="data-label">
+                        <span>Original Press</span>
+                        <strong id="sheetPublisher">Publisher</strong>
+                    </div>
+                    <div class="data-label">
+                        <span>Evaluation</span>
+                        <strong id="sheetPrice" style="color: #4a1212;">₹0.00</strong>
+                    </div>
+                    <div class="data-label">
+                        <span>Star Rating</span>
+                        <strong id="sheetRating" style="color: #bc921a;">★★★★★</strong>
+                    </div>
+                    <div class="data-label">
+                        <span>System Class</span>
+                        <strong id="sheetCategory">Genre</strong>
+                    </div>
+                </div>
+                
+                <p class="parchment-synopsis" id="sheetSynopsis">
+                    Parchment descriptive text content...
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- --- DATA ENGINE LOGIC --- -->
+    <script>
+        /* --- ARCHIVE DATABASE WITH HIGH-RELIABILITY VINTAGE AND DARK LEATHER BACKGROUNDS --- */
+        const archiveGlobalRecords = [
+            // 1. Fantasy & Mythology
+            { id: 1, title: "The Lord of the Rings", author: "J.R.R. Tolkien", genre: "Fantasy & Mythology", publisher: "George Allen & Unwin", price: "₹1,499", rating: "★★★★★", synopsis: "The foundational monument of high fantasy fiction detailing the grand shadow war over the One Ring.", cover: "https://images.unsplash.com/photo-1614849963640-9cc74b2a826f?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80" },
+            { id: 2, title: "The Hobbit", author: "J.R.R. Tolkien", genre: "Fantasy & Mythology", publisher: "George Allen & Unwin", price: "₹699", rating: "★★★★★", synopsis: "The antique classic prelude tracking Bilbo Baggins' unexpected underground mountain quest.", cover: "https://images.unsplash.com/photo-1601662539747-362c3e5d9fa1?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80" },
+            { id: 3, title: "Harry Potter & the Philosopher's Stone", author: "J.K. Rowling", genre: "Fantasy & Mythology", publisher: "Bloomsbury", price: "₹499", rating: "★★★★★", synopsis: "An orphan wizard enters a magnificent gothic castle school of witchcraft and wizardry.", cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80" },
+            { id: 4, title: "The Silmarillion", author: "J.R.R. Tolkien", genre: "Fantasy & Mythology", publisher: "George Allen & Unwin", price: "₹799", rating: "★★★★☆", synopsis: "An expansive mythological accounting of the First and Second Ages of Middle-earth.", cover: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80" },
+            { id: 5, title: "A Game of Thrones", author: "George R.R. Martin", genre: "Fantasy & Mythology", publisher: "Bantam Spectra", price: "₹899", rating: "★★★★★", synopsis: "A grim, cutthroat struggle of kings, knights, and dark winter threats across Westeros.", cover: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80" },
+
+            // 2. Gothic & Dark Fiction
+            { id: 6, title: "Dracula", author: "Bram Stoker", genre: "Gothic & Dark Fiction", publisher: "Archibald Constable", price: "₹399", rating: "★★★★★", synopsis: "The master vintage epistolary horror tracking the transylvanian count's vampire migration to England.", cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80" },
+            { id: 7, title: "Frankenstein", author: "Mary Shelley", genre: "Gothic & Dark Fiction", publisher: "Lackington, Hughes", price: "₹350", rating: "★★★★★", synopsis: "An ultimate cautionary gothic tale of scientific obsession, creation, and tragic alienation.", cover: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80" },
+            { id: 8, title: "The Picture of Dorian Gray", author: "Oscar Wilde", genre: "Gothic & Dark Fiction", publisher: "Ward, Lock & Co", price: "₹299", rating: "★★★★★", synopsis: "A dark academia favorite tracking a beautiful young man whose sins are transferred to a hidden portrait.", cover: "https://images.unsplash.com/photo-1610116306796-6ebd30d79143?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80" },
+            { id: 9, title: "Wuthering Heights", author: "Emily Brontë", genre: "Gothic & Dark Fiction", publisher: "Thomas Cautley Newby", price: "₹320", rating: "★★★★☆", synopsis: "A wild, tempestuous tale of obsessive love, revenge, and haunts on the bleak Yorkshire moors.", cover: "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80" },
+
+            // 3. Classic Literature
+            { id: 10, title: "The Great Gatsby", author: "F. Scott Fitzgerald", genre: "Classic Literature", publisher: "Scribner", price: "₹399", rating: "★★★★☆", synopsis: "A gorgeous modern classic tracing obsessive love and tragic wealth accumulation during the jazz age.", cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80" },
+            { id: 11, title: "Pride and Prejudice", author: "Jane Austen", genre: "Classic Literature", publisher: "T. Egerton", price: "₹250", rating: "★★★★★", synopsis: "The definitive elegant romantic wit masterpiece tackling status and pride in rural high society.", cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80" },
+            { id: 12, title: "Crime and Punishment", author: "Fyodor Dostoevsky", genre: "Classic Literature", publisher: "The Russian Messenger", price: "₹599", rating: "★★★★★", synopsis: "A deep psychological masterwork mapping the guilt and mental torment of a broke student murderer.", cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80" },
+            { id: 13, title: "Moby-Dick", author: "Herman Melville", genre: "Classic Literature", publisher: "Harper & Brothers", price: "₹499", rating: "★★★★☆", synopsis: "The monomaniacal cosmic sea hunt of Captain Ahab against the legendary white whale.", cover: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80" },
+
+            // 4. Sci-Fi & Dystopian
+            { id: 14, title: "1984", author: "George Orwell", genre: "Sci-Fi & Dystopian", publisher: "Secker & Warburg", price: "₹325", rating: "★★★★★", synopsis: "A chilling vision of a total psychological surveillance state run by an omnipresent party.", cover: "https://images.unsplash.com/photo-1614849963640-9cc74b2a826f?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1200&q=80" },
+            { id: 15, title: "Dune", author: "Frank Herbert", genre: "Sci-Fi & Dystopian", publisher: "Chilton Books", price: "₹650", rating: "★★★★★", synopsis: "The cosmic desert empire saga dealing with planetary ecology, spice trade, and religious messiahs.", cover: "https://images.unsplash.com/photo-1601662539747-362c3e5d9fa1?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1200&q=80" },
+            { id: 16, title: "Brave New World", author: "Aldous Huxley", genre: "Sci-Fi & Dystopian", publisher: "Chatto & Windus", price: "₹399", rating: "★★★★☆", synopsis: "A technological nightmare world where citizens are manufactured and chemically pacified.", cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1200&q=80" },
+            { id: 17, title: "Fahrenheit 451", author: "Ray Bradbury", genre: "Sci-Fi & Dystopian", publisher: "Ballantine Books", price: "₹350", rating: "★★★★★", synopsis: "A stark dystopian future where books are forbidden and firemen are deployed to burn them.", cover: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1200&q=80" },
+
+            // 5. Mystery & Noir
+            { id: 18, title: "And Then There Were None", author: "Agatha Christie", genre: "Mystery & Noir", publisher: "Collins Crime Club", price: "₹399", rating: "★★★★★", synopsis: "Ten houseguests stranded on a private island are executed one by one according to a nursery rhyme.", cover: "https://images.unsplash.com/photo-1610116306796-6ebd30d79143?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80" },
+            { id: 19, title: "The Hound of the Baskervilles", author: "Arthur Conan Doyle", genre: "Mystery & Noir", publisher: "George Newnes", price: "₹250", rating: "★★★★★", synopsis: "Sherlock Holmes travels into bleak moors to counter an apparent hellish phantom hound curse.", cover: "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80" },
+            { id: 20, title: "The Maltese Falcon", author: "Dashiell Hammett", genre: "Mystery & Noir", publisher: "Alfred A. Knopf", price: "₹450", rating: "★★★★☆", synopsis: "The legendary, hard-boiled detective story tracking a invaluable, jewel-encrusted bird statuette.", cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80" },
+            { id: 21, title: "Murder on the Orient Express", author: "Agatha Christie", genre: "Mystery & Noir", publisher: "Collins Crime Club", price: "₹375", rating: "★★★★★", synopsis: "Hercule Poirot must dissect clues on a snow-locked luxurious train to catch an elusive murderer.", cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80" },
+
+            // 6. History & Philosophy
+            { id: 22, title: "Meditations", author: "Marcus Aurelius", genre: "History & Philosophy", publisher: "Unknown Antique", price: "₹450", rating: "★★★★★", synopsis: "Private stoic self-counsel journals penned by the ultimate philosopher-emperor of Rome.", cover: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=80" },
+            { id: 23, title: "The Republic", author: "Plato", genre: "History & Philosophy", publisher: "Ancient Athens Press", price: "₹350", rating: "★★★★☆", synopsis: "Socratic dialogues addressing justice, community architecture, and the allegory of the cave.", cover: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=80" },
+            { id: 24, title: "Beyond Good and Evil", author: "Friedrich Nietzsche", genre: "History & Philosophy", publisher: "C. G. Naumann", price: "₹525", rating: "★★★★★", synopsis: "A scathing philosophy masterwork dissecting traditional morality and proposing the will to power.", cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=80" },
+            { id: 25, title: "The Prince", author: "Niccolò Machiavelli", genre: "History & Philosophy", publisher: "Antonio Blado d'Asola", price: "₹299", rating: "★★★★☆", synopsis: "The cold, practical vintage treaties concerning political power maintenance and royal pragmatism.", cover: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=80" },
+
+            // 7. Poetry & Drama
+            { id: 26, title: "The Divine Comedy", author: "Dante Alighieri", genre: "Poetry & Drama", publisher: "John Cassell", price: "₹799", rating: "★★★★★", synopsis: "The monumental vision tracking an epic descent into Inferno, Purgatorio, and eventual Paradise.", cover: "https://images.unsplash.com/photo-1610116306796-6ebd30d79143?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80" },
+            { id: 27, title: "Hamlet", author: "William Shakespeare", genre: "Poetry & Drama", publisher: "Nicholas Ling", price: "₹199", rating: "★★★★★", synopsis: "The definitive tragic gothic stage play detailing ghost encounters, madness, and royal vengeance in Denmark.", cover: "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80" },
+            { id: 28, title: "Paradise Lost", author: "John Milton", genre: "Poetry & Drama", publisher: "Samuel Simmons", price: "₹450", rating: "★★★★★", synopsis: "The grand, tragic epic poem detailing the fall of man and the rebellion of Lucifer in heaven.", cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80" },
+            { id: 29, title: "The Iliad", author: "Homer", genre: "Poetry & Drama", publisher: "Ancient Greece", price: "₹399", rating: "★★★★★", synopsis: "The foundational epic war chronicle recording the divine wrath and battles of Achilles.", cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80" },
+
+            // 8. Dark Academia & Lore
+            { id: 30, title: "The Secret History", author: "Donna Tartt", genre: "Dark Academia & Lore", publisher: "Alfred A. Knopf", price: "₹699", rating: "★★★★★", synopsis: "A tight-knit circle of classics students at an elite college step past normal boundaries into murder.", cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1200&q=80" },
+            { id: 31, title: "If We Were Villains", author: "M.L. Rio", genre: "Dark Academia & Lore", publisher: "Flatiron Books", price: "₹550", rating: "★★★★☆", synopsis: "Oliver Marks gets released from prison for a murder he may or may not have committed with Shakespeare stage actors.", cover: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1200&q=80" },
+            { id: 32, title: "Jonathan Strange & Mr Norrell", author: "Susanna Clarke", genre: "Dark Academia & Lore", publisher: "Bloomsbury", price: "₹750", rating: "★★★★★", synopsis: "An alternate gothic history tracing the return of real English scholarly magic during the Napoleonic wars.", cover: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1200&q=80" },
+            { id: 33, title: "Babel", author: "R.F. Kuang", genre: "Dark Academia & Lore", publisher: "Harper Voyager", price: "₹650", rating: "★★★★★", synopsis: "An elite translation institute at Oxford uses magical silver-working to fuel the dark colonial empire.", cover: "https://images.unsplash.com/photo-1614849963640-9cc74b2a826f?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1200&q=80" },
+
+            // 9. Macabre & Occult
+            { id: 34, title: "The Tell-Tale Heart", author: "Edgar Allan Poe", genre: "Macabre & Occult", publisher: "Vintage Press", price: "₹299", rating: "★★★★★", synopsis: "A quintessential dark academic collection of gothic horror, haunting guilt, and macabre obsession.", cover: "https://images.unsplash.com/photo-1601662539747-362c3e5d9fa1?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1519074069444-1ba4ae167512?auto=format&fit=crop&w=1200&q=80" },
+            { id: 35, title: "The Necronomicon", author: "H.P. Lovecraft", genre: "Macabre & Occult", publisher: "Arkham House", price: "₹899", rating: "★★★★☆", synopsis: "Chilling reports detailing cosmic dread, forbidden archaic rituals, and eldritch entities lurking in shadows.", cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1519074069444-1ba4ae167512?auto=format&fit=crop&w=1200&q=80" },
+            { id: 36, title: "The Haunting of Hill House", author: "Shirley Jackson", genre: "Macabre & Occult", publisher: "Viking Press", price: "₹390", rating: "★★★★★", synopsis: "Four searchers arrive at a notoriously unstable mansion, encountering terrifying psychological anomalies.", cover: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1519074069444-1ba4ae167512?auto=format&fit=crop&w=1200&q=80" },
+            { id: 37, title: "The King in Yellow", author: "Robert W. Chambers", genre: "Macabre & Occult", publisher: "F. Tennyson Neely", price: "₹350", rating: "★★★★☆", synopsis: "A forbidden antique play text that slowly drives any academic researcher who reads it completely insane.", cover: "https://images.unsplash.com/photo-1610116306796-6ebd30d79143?auto=format&fit=crop&w=400&q=80", banner: "https://images.unsplash.com/photo-1519074069444-1ba4ae167512?auto=format&fit=crop&w=1200&q=80" }
+        ];
+
+        const archiveSectors = [
+            { name: "Fantasy & Mythology", icon: "🔱", desc: "Primeval realms, ancestral magic lore, and dragon-bound relics." },
+            { name: "Gothic & Dark Fiction", icon: "🦇", desc: "Vampires, reanimated creatures, and melancholic psychological decay." },
+            { name: "Classic Literature", icon: "📜", desc: "Timeless masterpieces of tragic human drama and profound narrative depth." },
+            { name: "Sci-Fi & Dystopian", icon: "⏳", desc: "Technological warnings, cosmic empires, and surveillance societies." },
+            { name: "Mystery & Noir", icon: "🗝️", desc: "Gothic shadow puzzles, private investigators, and locked room executions." },
+            { name: "History & Philosophy", icon: "🏛️", desc: "Ancient emperor logs, stoic wisdom journals, and systemic logic frameworks." },
+            { name: "Poetry & Drama", icon: "🎭", desc: "Tragic play dynamics, structural ink verse, and ethereal visual performance text." },
+            { name: "Dark Academia & Lore", icon: "🦉", desc: "Elite universities, forbidden secret societies, and fatal classical obsessions." },
+            { name: "Macabre & Occult", icon: "👁️", desc: "Eldritch cosmic entities, haunted architecture, and lost texts that trigger madness." }
+        ];
+
+        const homeView = document.getElementById('homeView');
+        const shelfView = document.getElementById('shelfView');
+        const backBtn = document.getElementById('navigationBackBtn');
+
+        function breakArchiveSeal() {
+            document.getElementById('introGate').classList.add('unlock');
+            renderFoyerSectors();
+        }
+
+        function renderFoyerSectors() {
+            const foyerGrid = document.getElementById('genreContainer');
+            foyerGrid.innerHTML = archiveSectors.map(sec => `
+                <div class="genre-box" onclick="unlockShelfVault('${sec.name}')">
+                    <span class="icon">${sec.icon}</span>
+                    <h3>${sec.name}</h3>
+                    <p>${sec.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        function unlockShelfVault(sectorName) {
+            document.getElementById('shelfTitle').innerText = sectorName;
+            const correspondingBooks = archiveGlobalRecords.filter(b => b.genre === sectorName);
+            const container = document.getElementById('booksShelfContainer');
+            
+            if(correspondingBooks.length > 0) {
+                document.getElementById('shelfBanner').style.backgroundImage = `url('${correspondingBooks[0].banner}')`;
+            }
+
+            container.innerHTML = correspondingBooks.map(book => `
+                <div class="book-capsule" onclick="examineBookParchmentSheet(${book.id})">
+                    <div class="book-binding-3d">
+                        <div class="real-cover-img" style="background: url('${book.cover}'); background-size: cover;">
+                            <div class="cover-text-overlay">
+                                <div class="cover-text-title">${book.title}</div>
+                                <div class="cover-text-author">${book.author}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="book-meta-title">${book.title}</div>
+                    <div class="book-meta-author">${book.author}</div>
+                    <div class="book-meta-price">${book.price}</div>
+                    <div class="book-meta-rating">${book.rating}</div>
+                </div>
+            `).join('');
+
+            homeView.classList.remove('active');
+            shelfView.classList.add('active');
+            backBtn.classList.add('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function routeToHome() {
+            shelfView.classList.remove('active');
+            homeView.classList.add('active');
+            backBtn.classList.remove('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        const cabinet = document.getElementById('cabinetOverlay');
+
+        function examineBookParchmentSheet(bookId) {
+            const record = archiveGlobalRecords.find(b => b.id === bookId);
+            if(!record) return;
+
+            document.getElementById('sheetTitle').innerText = record.title;
+            document.getElementById('sheetAuthor').innerText = `by ${record.author}`;
+            document.getElementById('sheetPublisher').innerText = record.publisher;
+            document.getElementById('sheetPrice').innerText = record.price;
+            document.getElementById('sheetRating').innerText = record.rating;
+            document.getElementById('sheetCategory').innerText = record.genre;
+            document.getElementById('sheetSynopsis').innerText = record.synopsis;
+            
+            // Render the stylized layout into the modal's preview pane as well
+            document.getElementById('sheetCover').innerHTML = `
+                <div class="cover-text-overlay" style="padding: 25px 10px;">
+                    <div class="cover-text-title" style="font-size: 0.9rem;">${record.title}</div>
+                    <div class="cover-text-author" style="font-size: 0.7rem;">${record.author}</div>
+                </div>
+            `;
+            document.getElementById('sheetCover').style.background = `url('${record.cover}')`;
+            document.getElementById('sheetCover').style.backgroundSize = "cover";
+
+            toggleCabinetDisplayView(true);
+        }
+
+        function toggleCabinetDisplayView(status) {
+            if(status) cabinet.classList.add('active');
+            else cabinet.classList.remove('active');
+        }
+
+        function dismissCabinetViaOverlay(e) {
+            if(e.target === cabinet) toggleCabinetDisplayView(false);
+        }
+    </script>
+</body>
+</html>
